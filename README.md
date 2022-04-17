@@ -2,8 +2,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## Sobre o Projeto
-<p>O projeto é um desafio de ETL (Extract, Transform and Load), que se obtem dados de umas páginas, os ordena e devolve os dados através de uma chamada HTTP.</p></br>
-
+<p>O projeto é um desafio de ETL (Extract, Transform and Load), que se obtem dados de umas páginas, os ordena e devolve os dados através de uma chamada HTTP.</p>
 
 ## Desenvolvido com
 
