@@ -12,23 +12,23 @@ type NumberSet struct {
 	Numbers []float32 `json:"numbers"`
 }
 
-var st = make(chan []byte)
+var byteChannel = make(chan []byte)
 
 func PageDataRetrive() ([]float32, int) {
 
 	i := 1
 	speed := 1
+	//speedLImiter sets the maximum of offset HTTP calls.
 	speedLimiter := 30
-	//sts := []string{""}
-	var sts []float32
+	var DataSet []float32
 
 	for {
 		select {
-		case v := <-st:
-			if string(v) == `{"numbers":[]}` {
-				return sts, speed
+		case value := <-byteChannel:
+			if string(value) == `{"numbers":[]}` {
+				return DataSet, speed
 			} else {
-				sts = append(sts, resultoTofloatSlice(v)...)
+				DataSet = append(DataSet, resultoTofloatSlice(value)...)
 			}
 			speed++
 		default:
@@ -47,19 +47,19 @@ func getPageData(in int) {
 	resp, err := http.Get(pagesSTR)
 	if err != nil {
 		// handle error
-		fmt.Println("Err when get the page index: ", in, err)
+		fmt.Println("Error when getting the page index: ", in, err)
 		go getPageData(in)
 		return
 	}
 
+	defer resp.Body.Close()
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatalln("Erro no corpo no indice: ", err)
+		log.Fatalln("Error reading the data from site: ", err)
 	}
 
-	st <- body
-
-	defer resp.Body.Close()
+	byteChannel <- body
 
 }
 

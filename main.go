@@ -20,23 +20,11 @@ type restults struct {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Welcome!")
+	fmt.Fprintln(w, "Welcome! to get the results please input http://localhost:8080/NumbersResult")
 
-}
-
-func timeTest(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Welcome!")
-	start := time.Now()
-
-	time.Sleep(3 * time.Second)
-
-	elapsed := time.Since(start)
-
-	fmt.Fprintln(w, "OK ", elapsed.Minutes())
 }
 
 func NumbersResult(w http.ResponseWriter, r *http.Request) {
-	//fmt.Fprintln(w, "Processing...")
 
 	start := time.Now()
 
@@ -60,9 +48,7 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", Index)
 	router.HandleFunc("/NumbersResult", NumbersResult)
-	router.HandleFunc("/timeTest", timeTest)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 
 }
-
